@@ -82,16 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
             errorMessage.textContent = 'A senha deve ter no máximo 20 caracteres.';
             return;
         }
-        
-        // Verificar se a senha contém pelo menos uma letra maiúscula, uma minúscula e um número
-        const hasUpperCase = /[A-Z]/.test(password);
-        const hasLowerCase = /[a-z]/.test(password);
-        const hasNumber = /[0-9]/.test(password);
-        
-        if (!hasUpperCase || !hasLowerCase || !hasNumber) {
-            errorMessage.textContent = 'A senha deve conter pelo menos uma letra maiúscula, uma minúscula e um número.';
-            return;
-        }
+
         
         // Se chegou aqui, passou na validação
         console.log(`Email: ${email}`);

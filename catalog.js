@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
             isNew: true
         },
         {
-            name: 'Fone de Ouvido Telepático',
+            name: 'Headphone Bluetooth Gamer',
             image: './images/headphone.jpg',
             description: 'Cancelamento de ruído tão bom que você vai começar a ouvir seus próprios pensamentos. Use com moderação!',
             price: 'R$ 349,90',
@@ -55,14 +55,14 @@ document.addEventListener('DOMContentLoaded', function() {
             isNew: true
         },
         {
-            name: 'Cafeteira Inteligente',
+            name: 'Smart Coffee Maker',
             image: './images/coffee.jpg',
             description: 'Sabe quando você precisa de café antes mesmo de você saber. Psicóloga dos eletrônicos, entende sua necessidade de cafeína!',
             price: 'R$ 279,90',
             isNew: false
         },
         {
-            name: 'Kit de Panelas Indestrutiveis',
+            name: 'Cookware Titanium',
             image: './images/cookware.jpg',
             description: 'Feitas com o mesmo material dos aviões. Agora suas tentativas culinárias desastrosas só destruirão a comida, não a panela!',
             price: 'R$ 499,90',
