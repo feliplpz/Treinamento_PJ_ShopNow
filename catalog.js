@@ -1,19 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Mostra o email do usuário logado
     const userEmailSpan = document.getElementById('userEmail');
     const userEmail = localStorage.getItem('userEmail');
     const notification = document.getElementById('notification');
-    
-    // Verifica se o usuário está logado
     if (!userEmail) {
         window.location.href = 'index.html';
         return;
     }
-    
-    // Mostra o email do usuário
     userEmailSpan.textContent = `Bem-vindo, ${userEmail}`;
-    
-    // Função para mostrar notificações
+
     function showNotification(message, type) {
         notification.textContent = message;
         notification.className = `notification ${type}`;
@@ -24,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000);
     }
     
-    // Produtos fictícios para o catálogo com imagens modernas
     const products = [
         {
             name: 'Smartphone Ultra Pro Max',
@@ -70,14 +63,12 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         {
             name: 'Null Pointer',
-            image: './image/nullpointer.jpg',
+            image: './images/nullpointer.jpg',
             description: 'Alisa todos os fios para aqule penteado para deixar qualquer careca confiante, saia sem medo.',
             price: 'R$ 259,99',
             isNew: true
         }
     ];
-    
-    // Função para renderizar os produtos na página
     function renderProducts() {
         const productsGrid = document.querySelector('.products-grid');
         
@@ -85,8 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Elemento .products-grid não encontrado');
             return;
         }
-        
-        productsGrid.innerHTML = ''; // Limpa o grid antes de adicionar os produtos
+        productsGrid.innerHTML = ''; 
         
         products.forEach(product => {
             const productCard = document.createElement('div');
@@ -118,7 +108,6 @@ document.addEventListener('DOMContentLoaded', function() {
             productsGrid.appendChild(productCard);
         });
         
-        // Adicionar event listeners aos botões de compra
         document.querySelectorAll('.add-to-cart').forEach(button => {
             button.addEventListener('click', function() {
                 const productName = this.getAttribute('data-product');
@@ -128,7 +117,5 @@ document.addEventListener('DOMContentLoaded', function() {
         
         console.log('Produtos renderizados:', products.length);
     }
-    
-    // Renderiza os produtos
     renderProducts();
 });

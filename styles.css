@@ -1,4 +1,4 @@
-/* Reset e estilos gerais */
+
 * {
     margin: 0;
     padding: 0;
@@ -7,9 +7,9 @@
 }
 
 :root {
-    --primary-color: #005BAA; /* Azul PoliJunior */
-    --secondary-color: #F7921E; /* Laranja PoliJunior */
-    --accent-color: #003F73; /* Azul mais escuro */
+    --primary-color: #005BAA; 
+    --secondary-color: #F7921E; 
+    --accent-color: #003F73; 
     --text-color: #333333;
     --light-bg: #f8f9fa;
     --white: #ffffff;
@@ -24,7 +24,6 @@ body {
     flex-direction: column;
 }
 
-/* Estilos da página de login */
 .container {
     display: flex;
     justify-content: center;
@@ -154,7 +153,7 @@ button:hover::after {
     text-align: center;
 }
 
-/* Estilos da página de catálogo */
+
 header {
     background-color: var(--primary-color);
     color: var(--white);
@@ -385,7 +384,7 @@ footer {
     color: var(--secondary-color);
 }
 
-/* Responsividade */
+
 @media (max-width: 992px) {
     .products-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -427,7 +426,6 @@ footer {
     }
 }
 
-/* Animações */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -463,7 +461,7 @@ footer {
     animation-delay: 0.5s;
 }
 
-/* Placeholder para imagens */
+
 .image-placeholder {
     width: 100%;
     height: 100%;
@@ -476,7 +474,6 @@ footer {
     font-size: 14px;
 }
 
-/* Notificações */
 .notification {
     position: fixed;
     top: 20px;
