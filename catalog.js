@@ -2,11 +2,37 @@ document.addEventListener('DOMContentLoaded', function() {
     const userEmailSpan = document.getElementById('userEmail');
     const userEmail = localStorage.getItem('userEmail');
     const notification = document.getElementById('notification');
+    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    
     if (!userEmail) {
         window.location.href = 'index.html';
         return;
     }
     userEmailSpan.textContent = `Bem-vindo, ${userEmail}`;
+
+    function updateCartCount() {
+        const userInfo = document.querySelector('.user-info');
+        let cartCount = userInfo.querySelector('.cart-count');
+        
+        if (!cartCount) {
+            cartCount = document.createElement('span');
+            cartCount.className = 'cart-count';
+            userInfo.insertBefore(cartCount, document.querySelector('.logout-btn'));
+        }
+        
+        // Calcular o total de itens (considerando as quantidades)
+        let totalItems = 0;
+        cartItems.forEach(item => {
+            totalItems += item.quantity;
+        });
+        
+        if (totalItems > 0) {
+            cartCount.textContent = `🛒 ${totalItems}`;
+            cartCount.style.display = 'inline-block';
+        } else {
+            cartCount.style.display = 'none';
+        }
+    }
 
     function showNotification(message, type) {
         notification.textContent = message;
@@ -69,6 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
             isNew: true
         }
     ];
+    
     function renderProducts() {
         const productsGrid = document.querySelector('.products-grid');
         
@@ -82,11 +109,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const productCard = document.createElement('div');
             productCard.className = 'product-card';
             
-            const imagePlaceholder = `
-                <div class="image-placeholder">
-                    <span>Imagem não disponível</span>
-                </div>
-            `;
+            const imagePlaceholder = 
+                '<div class="image-placeholder">' +
+                '<span>Imagem não disponível</span>' +
+                '</div>';
             
             const newLabel = product.isNew ? '<span class="new-label">NOVO</span>' : '';
             
@@ -95,6 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     ${newLabel}
                     <img src="${product.image}" alt="${product.name}" class="product-image" 
                         onerror="this.parentNode.innerHTML = '${imagePlaceholder}
+                </div>
                 <div class="product-info">
                     <h3 class="product-name">${product.name}</h3>
                     <p class="product-description">${product.description}</p>
@@ -111,11 +138,182 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.add-to-cart').forEach(button => {
             button.addEventListener('click', function() {
                 const productName = this.getAttribute('data-product');
-                showNotification(`"${productName}" adicionado ao carrinho!`, 'success');
+                const product = products.find(p => p.name === productName);
+                
+                if (product) {
+                    // Verificar se o produto já está no carrinho
+                    const existingItemIndex = cartItems.findIndex(item => item.name === productName);
+                    
+                    if (existingItemIndex !== -1) {
+                        // Se o produto já existe, aumenta a quantidade
+                        cartItems[existingItemIndex].quantity += 1;
+                        showNotification(`Quantidade de "${productName}" aumentada para ${cartItems[existingItemIndex].quantity}!`, 'success');
+                    } else {
+                        // Se o produto não existe no carrinho, adiciona com quantidade 1
+                        cartItems.push({
+                            name: product.name,
+                            price: product.price,
+                            image: product.image,
+                            quantity: 1
+                        });
+                        showNotification(`"${productName}" adicionado ao carrinho!`, 'success');
+                    }
+                    
+                    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                    updateCartCount();
+                }
             });
         });
         
         console.log('Produtos renderizados:', products.length);
     }
+    
     renderProducts();
+    updateCartCount();
+    
+    // Adiciona evento para o botão de visualizar carrinho
+    const userInfo = document.querySelector('.user-info');
+    const viewCartBtn = document.createElement('a');
+    viewCartBtn.textContent = 'Ver Carrinho';
+    viewCartBtn.href = '#';
+    viewCartBtn.className = 'view-cart-btn';
+    userInfo.insertBefore(viewCartBtn, document.querySelector('.logout-btn'));
+    
+    viewCartBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        if (cartItems.length === 0) {
+            showNotification('Seu carrinho está vazio!', 'error');
+            return;
+        }
+        
+        // Criar modal para exibir o carrinho
+        const modal = document.createElement('div');
+        modal.className = 'cart-modal';
+        
+        let total = 0;
+        cartItems.forEach(item => {
+            // Extrair valor numérico do preço e somar ao total (multiplicando pela quantidade)
+            const priceValue = parseFloat(item.price.replace('R$ ', '').replace('.', '').replace(',', '.'));
+            total += priceValue * item.quantity;
+        });
+        
+        const formattedTotal = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        
+        modal.innerHTML = `
+            <div class="cart-modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Seu Carrinho</h2>
+                <div class="cart-items">
+                    ${cartItems.map(item => `
+                        <div class="cart-item">
+                            <div class="cart-item-image">
+                                <img src="${item.image}" alt="${item.name}" 
+                                    onerror="this.src='./images/placeholder.jpg'">
+                            </div>
+                            <div class="cart-item-info">
+                                <p>${item.name}</p>
+                                <p class="cart-item-price">${item.price}</p>
+                                <div class="quantity-controls">
+                                    <button class="quantity-btn minus" data-name="${item.name}">-</button>
+                                    <span class="item-quantity">${item.quantity}</span>
+                                    <button class="quantity-btn plus" data-name="${item.name}">+</button>
+                                </div>
+                            </div>
+                            <button class="remove-item" data-name="${item.name}" title="Remover do carrinho">
+    🗑️ Remover
+</button>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="cart-total">
+                    <p>Total: <span>${formattedTotal}</span></p>
+                    <button class="checkout-btn">Finalizar Compra</button>
+                    <button class="clear-cart-btn">Limpar Carrinho</button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        // Adicionar evento para fechar o modal
+        modal.querySelector('.close-modal').addEventListener('click', function() {
+            document.body.removeChild(modal);
+        });
+        
+        // Evento para remover item do carrinho
+        modal.querySelectorAll('.remove-item').forEach(button => {
+            button.addEventListener('click', function() {
+                const itemName = this.getAttribute('data-name');
+                const itemIndex = cartItems.findIndex(item => item.name === itemName);
+                
+                if (itemIndex !== -1) {
+                    cartItems.splice(itemIndex, 1);
+                    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                    updateCartCount();
+                    
+                    // Atualizar o modal
+                    document.body.removeChild(modal);
+                    if (cartItems.length > 0) {
+                        viewCartBtn.click();
+                    } else {
+                        showNotification('Carrinho vazio!', 'success');
+                    }
+                }
+            });
+        });
+        
+        // Eventos para os botões de quantidade
+        modal.querySelectorAll('.quantity-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const itemName = this.getAttribute('data-name');
+                const itemIndex = cartItems.findIndex(item => item.name === itemName);
+                const isPlus = this.classList.contains('plus');
+                
+                if (itemIndex !== -1) {
+                    if (isPlus) {
+                        // Aumentar quantidade
+                        cartItems[itemIndex].quantity += 1;
+                    } else {
+                        // Diminuir quantidade
+                        cartItems[itemIndex].quantity -= 1;
+                        
+                        // Se a quantidade for 0, remover o item
+                        if (cartItems[itemIndex].quantity <= 0) {
+                            cartItems.splice(itemIndex, 1);
+                        }
+                    }
+                    
+                    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                    updateCartCount();
+                    
+                    // Atualizar o modal
+                    document.body.removeChild(modal);
+                    if (cartItems.length > 0) {
+                        viewCartBtn.click();
+                    } else {
+                        showNotification('Carrinho vazio!', 'success');
+                    }
+                }
+            });
+        });
+        
+        // Evento para limpar o carrinho
+        modal.querySelector('.clear-cart-btn').addEventListener('click', function() {
+            cartItems = [];
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            updateCartCount();
+            document.body.removeChild(modal);
+            showNotification('Carrinho esvaziado com sucesso!', 'success');
+        });
+        
+        // Evento para finalizar compra
+        modal.querySelector('.checkout-btn').addEventListener('click', function() {
+            cartItems = [];
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            updateCartCount();
+            document.body.removeChild(modal);
+            showNotification('Compra finalizada com sucesso! Obrigado por comprar na Shop Now!', 'success');
+        });
+    });
 });

@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
             notification.classList.remove('show');
         }, 3000);
     }
+    
     emailInput.addEventListener('input', function() {
         const email = emailInput.value.trim();
         const validDomains = ['gmail.com', 'polijunior.com.br', 'usp.br', 'hotmail.com', 'outlook.com', 'yahoo.com'];
@@ -35,8 +36,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const password = passwordInput.value;
         const minLength = password.length >= 8;
         
-        if (minLength && hasUpperCase && hasLowerCase && hasNumber) {
+        if (minLength) {
             passwordInput.style.borderColor = '#2ecc71'; 
+        } else {
             passwordInput.style.borderColor = '#e74c3c';  
         }
     });
@@ -51,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
             errorMessage.textContent = 'Por favor, preencha todos os campos.';
             return;
         }
+        
         const validDomains = ['gmail.com', 'polijunior.com.br', 'usp.br', 'hotmail.com', 'outlook.com', 'yahoo.com'];
         const emailParts = email.split('@');
         
@@ -58,14 +61,23 @@ document.addEventListener('DOMContentLoaded', function() {
             errorMessage.textContent = 'Por favor, use um email válido (gmail, polijunior, usp, etc).';
             return;
         }
+        
         if (password.length < 8) {
             errorMessage.textContent = 'A senha deve ter pelo menos 8 caracteres.';
             return;
         }
+        
         console.log(`Email: ${email}`);
         console.log(`Senha: ${password}`);
+        
+        // Inicializar o carrinho vazio caso não exista
+        if (!localStorage.getItem('cartItems')) {
+            localStorage.setItem('cartItems', JSON.stringify([]));
+        }
+        
         localStorage.setItem('userEmail', email);
         showNotification('Login realizado com sucesso! Redirecionando...', 'success');
+        
         setTimeout(() => {
             window.location.href = 'catalog.html';
         }, 1500);
