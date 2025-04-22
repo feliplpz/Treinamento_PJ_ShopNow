@@ -70,7 +70,8 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log(`Email: ${email}`);
         console.log(`Senha: ${password}`);
         
-        // Inicializar o carrinho vazio caso não exista
+        
+ Inicializar o carrinho vazio caso não exista
         if (!localStorage.getItem('cartItems')) {
             localStorage.setItem('cartItems', JSON.stringify([]));
         }
