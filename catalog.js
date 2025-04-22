@@ -19,8 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
             cartCount.className = 'cart-count';
             userInfo.insertBefore(cartCount, document.querySelector('.logout-btn'));
         }
-        
-        // Calcular o total de itens (considerando as quantidades)
+
         let totalItems = 0;
         cartItems.forEach(item => {
             totalItems += item.quantity;
@@ -141,15 +140,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 const product = products.find(p => p.name === productName);
                 
                 if (product) {
-                    // Verificar se o produto já está no carrinho
                     const existingItemIndex = cartItems.findIndex(item => item.name === productName);
-                    
+            
                     if (existingItemIndex !== -1) {
-                        // Se o produto já existe, aumenta a quantidade
                         cartItems[existingItemIndex].quantity += 1;
                         showNotification(`Quantidade de "${productName}" aumentada para ${cartItems[existingItemIndex].quantity}!`, 'success');
                     } else {
-                        // Se o produto não existe no carrinho, adiciona com quantidade 1
+
                         cartItems.push({
                             name: product.name,
                             price: product.price,
@@ -171,7 +168,6 @@ document.addEventListener('DOMContentLoaded', function() {
     renderProducts();
     updateCartCount();
     
-    // Adiciona evento para o botão de visualizar carrinho
     const userInfo = document.querySelector('.user-info');
     const viewCartBtn = document.createElement('a');
     viewCartBtn.textContent = 'Ver Carrinho';
@@ -187,13 +183,12 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Criar modal para exibir o carrinho
+
         const modal = document.createElement('div');
         modal.className = 'cart-modal';
         
         let total = 0;
         cartItems.forEach(item => {
-            // Extrair valor numérico do preço e somar ao total (multiplicando pela quantidade)
             const priceValue = parseFloat(item.price.replace('R$ ', '').replace('.', '').replace(',', '.'));
             total += priceValue * item.quantity;
         });
@@ -220,7 +215,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <button class="quantity-btn plus" data-name="${item.name}">+</button>
                                 </div>
                             </div>
-                            <button class="remove-item" data-name="${item.name}">Remover</button>
+                          <button class="remove-item" data-name="${item.name}" title="Remover do carrinho">
+                                     🗑️ Remover
+                          </button>
                         </div>
                     `).join('')}
                 </div>
@@ -234,12 +231,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.body.appendChild(modal);
         
-        // Adicionar evento para fechar o modal
+
         modal.querySelector('.close-modal').addEventListener('click', function() {
             document.body.removeChild(modal);
         });
         
-        // Evento para remover item do carrinho
+
         modal.querySelectorAll('.remove-item').forEach(button => {
             button.addEventListener('click', function() {
                 const itemName = this.getAttribute('data-name');
@@ -250,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     localStorage.setItem('cartItems', JSON.stringify(cartItems));
                     updateCartCount();
                     
-                    // Atualizar o modal
+
                     document.body.removeChild(modal);
                     if (cartItems.length > 0) {
                         viewCartBtn.click();
@@ -260,8 +257,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
-        
-        // Eventos para os botões de quantidade
+    
         modal.querySelectorAll('.quantity-btn').forEach(button => {
             button.addEventListener('click', function() {
                 const itemName = this.getAttribute('data-name');
@@ -270,13 +266,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 if (itemIndex !== -1) {
                     if (isPlus) {
-                        // Aumentar quantidade
+
                         cartItems[itemIndex].quantity += 1;
                     } else {
-                        // Diminuir quantidade
                         cartItems[itemIndex].quantity -= 1;
-                        
-                        // Se a quantidade for 0, remover o item
+
                         if (cartItems[itemIndex].quantity <= 0) {
                             cartItems.splice(itemIndex, 1);
                         }
@@ -285,7 +279,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     localStorage.setItem('cartItems', JSON.stringify(cartItems));
                     updateCartCount();
                     
-                    // Atualizar o modal
+
                     document.body.removeChild(modal);
                     if (cartItems.length > 0) {
                         viewCartBtn.click();
@@ -296,7 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         
-        // Evento para limpar o carrinho
+
         modal.querySelector('.clear-cart-btn').addEventListener('click', function() {
             cartItems = [];
             localStorage.setItem('cartItems', JSON.stringify(cartItems));
@@ -305,7 +299,7 @@ document.addEventListener('DOMContentLoaded', function() {
             showNotification('Carrinho esvaziado com sucesso!', 'success');
         });
         
-        // Evento para finalizar compra
+
         modal.querySelector('.checkout-btn').addEventListener('click', function() {
             cartItems = [];
             localStorage.setItem('cartItems', JSON.stringify(cartItems));
