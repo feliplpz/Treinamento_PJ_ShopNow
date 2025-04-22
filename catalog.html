@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Now - Catálogo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="header-logo">
+                <h1>Shop Now</h1>
+                <span class="header-slogan">Preços bons e qualidade superior</span>
+            </div>
+            <div class="user-info">
+                <span id="userEmail">Bem-vindo!</span>
+                <a href="index.html" class="logout-btn">Sair</a>
+            </div>
+        </div>
+        <div class="header-right">
+            <span class="user-email">Bem-vindo</span>
+            <div class="cart-icon-container">
+                <i id="cartIcon" class="fas fa-shopping-cart"></i>
+                <span id="cartCounter" class="cart-counter">0</span>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <div class="catalog-container">
+            <h2>Nossos Produtos</h2>
+            <div class="products-grid">
+                <!-- Os produtos serão inseridos via JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <p>&copy; 2025 Shop Now</p>
+            </div>
+            <div class="footer-links">
+                <a href="#">Sobre</a>
+                <a href="#">Contato</a>
+                <a href="#">Termos</a>
+                <a href="#">Privacidade</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Painel do carrinho -->
+    <div id="cartPanel" class="cart-panel">
+        <div class="cart-header">
+            <h2>Meu Carrinho</h2>
+            <button id="closeCart" class="close-cart">&times;</button>
+        </div>
+        <div id="cartContainer" class="cart-container">
+            <!-- O conteúdo do carrinho será injetado aqui dinamicamente -->
+        </div>
+    </div>
+
+    <!-- Notificações -->
+    <div id="notification" class="notification"></div>
+
+    <script src="catalog.js"></script>
+</body>
+</html>
