@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
             isNew: false
         },
         {
-            name: 'Smart TV 8K Curva 65"',
+            name: 'Smart TV 8K Curva 65',
             image: './images/tv.jpg',
             description: 'Resolução tão alta que você vai ver detalhes que nem os atores sabiam que estavam lá. Sua conta de streaming agradece!',
             price: 'R$ 3.199,00',
@@ -67,6 +67,13 @@ document.addEventListener('DOMContentLoaded', function() {
             description: 'Feitas com o mesmo material dos aviões. Agora suas tentativas culinárias desastrosas só destruirão a comida, não a panela!',
             price: 'R$ 499,90',
             isNew: false
+        },
+        {
+            name: 'Null Pointer',
+            image: './image/nullpointer.jpg',
+            description: 'Alisa todos os fios para aqule penteado para deixar qualquer careca confiante, saia sem medo.',
+            price: 'R$ 259,99',
+            isNew: true
         }
     ];
     
@@ -97,8 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="product-image-container">
                     ${newLabel}
                     <img src="${product.image}" alt="${product.name}" class="product-image" 
-                        onerror="this.parentNode.innerHTML = '${imagePlaceholder}'">
-                </div>
+                        onerror="this.parentNode.innerHTML = '${imagePlaceholder}
                 <div class="product-info">
                     <h3 class="product-name">${product.name}</h3>
                     <p class="product-description">${product.description}</p>
