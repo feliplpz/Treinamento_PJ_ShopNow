@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
             isNew: false
         },
         {
-            name: 'Null Pointer',
+            name: 'NullPointer Hair',
             image: './images/nullpointer.jpg',
             description: 'Alisa todos os fios para aqule penteado para deixar qualquer careca confiante, saia sem medo.',
             price: 'R$ 259,99',
