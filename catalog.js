@@ -80,16 +80,9 @@ document.addEventListener('DOMContentLoaded', function() {
             isNew: false
         },
         {
-            name: 'Cookware Titanium',
-            image: './images/cookware.jpg',
-            description: 'Feitas com o mesmo material dos aviões. Agora suas tentativas culinárias desastrosas só destruirão a comida, não a panela!',
-            price: 'R$ 499,90',
-            isNew: false
-        },
-        {
             name: 'NullPointer Hair',
             image: './images/nullpointer.jpg',
-            description: 'Alisa todos os fios para aqule penteado para deixar qualquer careca confiante, saia sem medo.',
+            description: 'Alisa até os ponteiros nulos! Deixe até a careca mais tímida com autoestima de buffer estourado. Saia sem medo, com estilo e confiança.',
             price: 'R$ 259,99',
             isNew: true
         }
